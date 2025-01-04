@@ -1,6 +1,7 @@
 const { loadCredentials } = require('../config');
 const { fetchRepositories } = require('../bitbucket');
 const Table = require('cli-table3');
+const loading = require('../loading');
 
 module.exports = async (cmd) => {
 	const { username, appPassword } = loadCredentials();
@@ -11,7 +12,10 @@ module.exports = async (cmd) => {
 		return;
 	}
 
+	const spinner = await loading('Fetching repositories...');
+
 	const repositories = await fetchRepositories(username, appPassword);
+	spinner.stop();
 	const table = new Table({
 		head: ['Repository', 'Owner', 'URL'],
 		colWidths: [40, 20, 50]

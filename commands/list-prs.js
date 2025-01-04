@@ -9,6 +9,7 @@ const {
 	unapprovePR
 } = require('../bitbucket');
 const inquirer = require('inquirer').default;
+const loading = require('../loading');
 
 module.exports = async (cmd) => {
 	const { username, appPassword } = loadCredentials(); // Load credentials from config file
@@ -20,7 +21,9 @@ module.exports = async (cmd) => {
 
 	try {
 		// Step 1: Fetch available workspaces
+		const spinner = await loading('Fetching workspaces...');
 		const workspaces = await fetchWorkspaces(username, appPassword);
+		spinner.stop();
 
 		if (workspaces.length === 0) {
 			console.log('You don’t have access to any workspaces.');
@@ -38,7 +41,9 @@ module.exports = async (cmd) => {
 		]);
 
 		// Step 3: Fetch repositories in the selected workspace
+		const spinner2 = await loading('Fetching repositories...');
 		const repositories = await fetchRepositories(username, appPassword);
+		spinner2.stop();
 
 		if (repositories.length === 0) {
 			console.log('No repositories found in this workspace.');
@@ -65,12 +70,14 @@ module.exports = async (cmd) => {
 		]);
 
 		// Step 5: Fetch open pull requests for the selected repository
+		const spinner3 = await loading('Fetching open pull requests...');
 		const prs = await fetchOpenPRs(
 			username,
 			appPassword,
 			selectedWorkspace,
 			selectedRepository.slug
 		);
+		spinner3.stop();
 
 		if (prs.length === 0) {
 			console.log('No open pull requests.');

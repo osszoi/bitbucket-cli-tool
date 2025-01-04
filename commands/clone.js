@@ -1,6 +1,7 @@
 const { loadCredentials } = require('../config');
 const { fetchRepositories, cloneRepository } = require('../bitbucket');
 const inquirer = require('inquirer').default;
+const loading = require('../loading');
 
 module.exports = async (searchTerm) => {
 	const { username, appPassword } = loadCredentials();
@@ -11,7 +12,10 @@ module.exports = async (searchTerm) => {
 		return;
 	}
 
+	const spinner = await loading('Fetching repositories...');
 	const repositories = await fetchRepositories(username, appPassword);
+	spinner.stop();
+
 	const filteredRepos = repositories.filter((repo) =>
 		repo.name.toLowerCase().includes(searchTerm?.toLowerCase() ?? '')
 	);
