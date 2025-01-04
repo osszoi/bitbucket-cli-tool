@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { execSync } = require('child_process');
 
 // Function to approve a PR
 async function approvePR(username, appPassword, workspace, repoSlug, prId) {
@@ -136,6 +137,37 @@ async function fetchOpenPRs(username, appPassword, workspace, repoSlug) {
 	}
 }
 
+async function createPullRequest(
+	username,
+	appPassword,
+	workspace,
+	repoSlug,
+	title,
+	sourceBranch,
+	destinationBranch
+) {
+	const url = `https://api.bitbucket.org/2.0/repositories/${workspace}/${repoSlug.replace(
+		'.git',
+		''
+	)}/pullrequests`;
+
+	const data = {
+		title,
+		source: { branch: { name: sourceBranch } },
+		destination: { branch: { name: destinationBranch } }
+	};
+
+	try {
+		const response = await axios.post(url, data, {
+			auth: { username, password: appPassword }
+		});
+		console.log('Pull request created:', response.data.links.html.href);
+	} catch (error) {
+		console.error('Failed to create pull request:', error.message);
+		console.error('Did you pushed the branch before trying to create the PR?');
+	}
+}
+
 module.exports = {
 	approvePR,
 	declinePR,
@@ -144,5 +176,6 @@ module.exports = {
 	fetchRepositories,
 	cloneRepository,
 	fetchWorkspaces,
-	fetchOpenPRs
+	fetchOpenPRs,
+	createPullRequest
 };

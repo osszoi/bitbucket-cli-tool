@@ -6,6 +6,7 @@ const setPassword = require('./commands/set-password');
 const list = require('./commands/list');
 const clone = require('./commands/clone');
 const listPrs = require('./commands/list-prs');
+const createPR = require('./commands/create-pr');
 
 const program = new Command();
 
@@ -39,5 +40,12 @@ program
 	)
 	.option('--filter [name]', 'Filter repositories by name', '')
 	.action(listPrs);
+
+program
+	.command('create-pr')
+	.description(
+		'Create a pull request with the last commit message and branch name in the title.'
+	)
+	.action(createPR);
 
 program.parse(process.argv);
