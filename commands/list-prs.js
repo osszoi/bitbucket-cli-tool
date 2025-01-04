@@ -10,6 +10,7 @@ const {
 } = require('../bitbucket');
 const inquirer = require('inquirer').default;
 const loading = require('../loading');
+const hjklSupport = require('../compatibility/hjkl');
 
 module.exports = async (cmd) => {
 	const { username, appPassword } = loadCredentials(); // Load credentials from config file
@@ -36,7 +37,8 @@ module.exports = async (cmd) => {
 				type: 'list',
 				name: 'selectedWorkspace',
 				message: 'Select a workspace:',
-				choices: workspaces
+				choices: workspaces,
+				...hjklSupport
 			}
 		]);
 
@@ -65,7 +67,8 @@ module.exports = async (cmd) => {
 						cmd.filter
 							? r.name.toLowerCase().includes(cmd.filter?.toLowerCase())
 							: true
-					)
+					),
+				...hjklSupport
 			}
 		]);
 
@@ -95,7 +98,8 @@ module.exports = async (cmd) => {
 						name: `${pr.title} - ${pr.author.display_name}`,
 						value: pr
 					};
-				})
+				}),
+				...hjklSupport
 			}
 		]);
 
@@ -110,7 +114,8 @@ module.exports = async (cmd) => {
 					{ name: 'Decline', value: 'decline' },
 					{ name: 'Merge', value: 'merge' },
 					{ name: 'Unapprove', value: 'unapprove' } // Added unapprove option
-				]
+				],
+				...hjklSupport
 			}
 		]);
 

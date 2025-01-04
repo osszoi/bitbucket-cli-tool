@@ -2,6 +2,7 @@ const { loadCredentials } = require('../config');
 const { fetchRepositories, cloneRepository } = require('../bitbucket');
 const inquirer = require('inquirer').default;
 const loading = require('../loading');
+const hjklSupport = require('../compatibility/hjkl');
 
 module.exports = async (searchTerm) => {
 	const { username, appPassword } = loadCredentials();
@@ -31,7 +32,8 @@ module.exports = async (searchTerm) => {
 				type: 'list',
 				name: 'selectedRepo',
 				message: 'Choose a repository to clone:',
-				choices
+				choices,
+				...hjklSupport
 			}
 		]);
 
