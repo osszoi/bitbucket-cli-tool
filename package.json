@@ -8,6 +8,10 @@
   },
   "author": "Eduardo Lorenzo <ejlorenzo19@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/osszoi/bitbucket-cli-tool"
+  },
   "description": "Bitbucket CLI tool for listing and clonning repositories",
   "dependencies": {
     "axios": "^1.7.9",
