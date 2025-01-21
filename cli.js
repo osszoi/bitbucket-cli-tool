@@ -24,6 +24,9 @@ program
 	.command('list')
 	.description('List all repositories you have access to.')
 	.option('--filter [name]', 'Filter repositories by name', '')
+	.option('--branch [name]', 'Filter repositories that has branch', '')
+	.option('--comma-separated', 'Output the result as array', '')
+	.option('--slug-only', 'Output the result as array', '')
 	.action(list);
 
 // // Command: Clone a repository

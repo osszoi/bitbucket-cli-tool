@@ -1,5 +1,8 @@
 const axios = require('axios');
 const { execSync } = require('child_process');
+const bbr = require('bitbucket-repo-utils');
+
+const { checkBranchExists, fetchRepositories: fetchRepositories2 } = bbr;
 
 // Function to approve a PR
 async function approvePR(username, appPassword, workspace, repoSlug, prId) {
@@ -177,5 +180,7 @@ module.exports = {
 	cloneRepository,
 	fetchWorkspaces,
 	fetchOpenPRs,
-	createPullRequest
+	createPullRequest,
+	checkBranchExists,
+	fetchRepositoriesLib: fetchRepositories2
 };
