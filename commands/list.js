@@ -55,12 +55,16 @@ module.exports = async (cmd) => {
 		} else {
 			const [workspace, name] = repo.nameWithWorkspace.split(' / ');
 			table.push([name, workspace, cloneUrl]);
-			repos.push(repo);
+			repos.push(cmd.slugOnly ? repo.slug : repo);
 		}
 	}
 
 	if (cmd.commaSeparated) {
-		console.log(repos.toString());
+		if (cmd.slugOnly) {
+			console.log(repos.toString());
+		} else {
+			console.log(JSON.stringify(repos));
+		}
 	} else {
 		console.log(table.toString());
 	}

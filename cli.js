@@ -10,6 +10,55 @@ const createPR = require('./commands/create-pr');
 
 const program = new Command();
 
+program.name('bb');
+
+// Examples
+program.on('--help', () => {
+	console.log('');
+	console.log('Examples:');
+	console.log('');
+	console.log('  Authentication:');
+	console.log('    $ bitbucket set-username YOUR_USERNAME');
+	console.log('    $ bitbucket set-password YOUR_APP_PASSWORD');
+	console.log('');
+	console.log('  List repositories:');
+	console.log(
+		'    $ bitbucket list                                 # List all repositories'
+	);
+	console.log(
+		'    $ bitbucket list --filter project-name           # Filter repos by name'
+	);
+	console.log(
+		'    $ bitbucket list --branch feature                # Filter repos with specific branch'
+	);
+	console.log(
+		'    $ bitbucket list --comma-separated               # Output as comma-separated list'
+	);
+	console.log(
+		'    $ bitbucket list --comma-separated --slug-only   # Output only repository slugs'
+	);
+	console.log('');
+	console.log('  Clone repository:');
+	console.log(
+		'    $ bitbucket clone                                # Interactive repository selection'
+	);
+	console.log(
+		'    $ bitbucket clone my-project                     # Quick search and clone'
+	);
+	console.log('');
+	console.log('  Pull Requests:');
+	console.log(
+		'    $ bitbucket list-prs                             # List and interact with PRs'
+	);
+	console.log(
+		'    $ bitbucket list-prs --filter backend            # Filter PRs by repository name'
+	);
+	console.log(
+		'    $ bitbucket create-pr                            # Create PR from current branch'
+	);
+});
+
+
 program
 	.command('set-username <username>')
 	.description('Set your Bitbucket username.')
